@@ -2,7 +2,6 @@
 
 import { useSidebar } from "@/store/use-sidebar";
 import { Follow, User } from "@prisma/client";
-import { stat } from "fs";
 import { UserItem, UserItemSkeleton } from "./user-item";
 
 interface FollowingProps {
