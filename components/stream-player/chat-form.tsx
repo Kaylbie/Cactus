@@ -69,7 +69,6 @@ export const ChatForm = ({onSubmit,value,onChange,isHidden,isFollowersOnly,isFol
                 variant="primary"
                 size="sm"
                 disabled={isDisabled}
-                
                 >
                     Chat
                 </Button>

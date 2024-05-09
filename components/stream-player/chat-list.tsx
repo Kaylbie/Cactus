@@ -6,9 +6,11 @@ interface ChatListProps{
     messages:ReceivedChatMessage[];
 
     isHidden:boolean;
+    hostName:string;
+    isModerator:boolean;
 };
 
-export const ChatList=({messages,isHidden}:ChatListProps)=>{
+export const ChatList=({messages,isHidden, hostName, isModerator}:ChatListProps)=>{
 
     if(isHidden || !messages||messages.length===0){
         return(
@@ -25,6 +27,8 @@ export const ChatList=({messages,isHidden}:ChatListProps)=>{
                 <ChatMessage
                     key={message.timestamp}
                     data={message}
+                    hostName={hostName}
+                    isModded={isModerator}
                 />
             ))}
         </div>

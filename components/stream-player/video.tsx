@@ -15,9 +15,10 @@ import { Skeleton } from "../ui/skeleton";
 interface VideoProps{
     hostName:string;
     hostIdentity:string;
+    thumbnailUrl:string;
 };
 
-export const Video = ({hostName, hostIdentity}:VideoProps)=>{
+export const Video = ({hostName, hostIdentity,thumbnailUrl}:VideoProps)=>{
     const connectionState = useConnectionState();
     const participant=useRemoteParticipant(hostIdentity);
     const tracks=useTracks([
@@ -27,7 +28,10 @@ export const Video = ({hostName, hostIdentity}:VideoProps)=>{
 
     let content;
     if(!participant && connectionState===ConnectionState.Connected){
-        content=<OfflineVideo username={hostName}/>
+        content=<OfflineVideo 
+        username={hostName}
+        thumbnailUrl={thumbnailUrl}
+        />
     }
     else if(!participant || tracks.length===0){
         content=<LoadingVideo

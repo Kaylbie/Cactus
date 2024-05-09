@@ -13,9 +13,10 @@ interface ChatCommunityProps{
     hostName:string;
     viewerName:string;
     isHidden:boolean;
+    isModded:boolean;
 };
 
-export const ChatCommunity = ({hostName,viewerName,isHidden}:ChatCommunityProps)=>{
+export const ChatCommunity = ({hostName,viewerName,isHidden,isModded}:ChatCommunityProps)=>{
     const [value, setValue]=useState("");
 
     const [debouncedValue,setDebouncedValue]=useDebounceValue<string>(value,500);
@@ -32,6 +33,8 @@ export const ChatCommunity = ({hostName,viewerName,isHidden}:ChatCommunityProps)
             }
             return acc;
         },[]as(RemoteParticipant|LocalParticipant)[]);
+
+        
         return deduped.filter((participant)=>{
             return participant.name?.toLowerCase().includes(debouncedValue.toLowerCase())
         });
@@ -66,6 +69,7 @@ export const ChatCommunity = ({hostName,viewerName,isHidden}:ChatCommunityProps)
                         viewerName={viewerName}
                         participantName={participant.name}
                         participantIdentity={participant.identity}
+                        isModded={isModded}
                     />
                 ))}
             </ScrollArea>

@@ -7,4 +7,5 @@ export const db=globalThis.prisma||new PrismaClient();
 
 if(process.env.NODE_ENV==='production'){//dont create a new connection if not production
     globalThis.prisma=db; 
+    //console.log(process.exitCode);
 }

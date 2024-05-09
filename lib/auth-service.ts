@@ -3,7 +3,9 @@ import {currentUser} from "@clerk/nextjs/server";
 import {db} from "@/lib/db";
 
 export const getSelf=async()=>{
+
     const self = await currentUser();
+
     if(!self || !self.username){
         throw new Error("Unauthorized");
     }
@@ -12,6 +14,7 @@ export const getSelf=async()=>{
             externalUserId:self.id
         }
     });
+    
     if(!user){
         throw new Error("Not found");
     }
@@ -34,6 +37,7 @@ export const getSelfByUsername = async (username:string) =>{
         throw new Error("Not found");
     }
     if(self.username !== user.username){
+        //console.log("username"+self.username);
         throw new Error("Unauthorized");//cant access other users
     }
     return user;

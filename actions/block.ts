@@ -3,6 +3,7 @@ import { getSelf } from "@/lib/auth-service";
 import { blockUser, unblockUser } from "@/lib/block-service";
 import { RoomServiceClient } from "livekit-server-sdk";
 import { revalidatePath } from "next/cache";
+import { getUserIdByUsername } from "./users";
 
 const roomService = new RoomServiceClient(
     process.env.LIVEKIT_API_URL!,
@@ -11,8 +12,9 @@ const roomService = new RoomServiceClient(
 );
 
 
-export const onBlock = async (id:string) => {
-    const self=await getSelf();
+export const onBlock = async (id:string, hostName:string) => {
+    //const self=await getSelf();
+    const hostId=await getUserIdByUsername(hostName);
 
     let blockedUser;
 
@@ -21,10 +23,11 @@ export const onBlock = async (id:string) => {
         
     }catch{
         //guest user
+        console.log("guest user");
     }
 
     try{
-        await roomService.removeParticipant(self.id, id);
+        await roomService.removeParticipant(hostId, id);
     }catch{
         //not in room
     }

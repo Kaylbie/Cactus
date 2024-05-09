@@ -13,7 +13,8 @@ type FieldTypes="isChatEnabled" | "isChatDelayed" | "isChatFollowersOnly";
 interface ToggleCardProps {
     label: string;
     value: boolean;
-    field: FieldTypes
+    field: FieldTypes;
+    hostIdentity: string;
 }
 
 
@@ -21,11 +22,12 @@ export const ToggleCard = ({
     label,
     value=false,
     field,
+    hostIdentity,
 }:ToggleCardProps)=>{
     const [isPending,startTransition] = useTransition();
     const onChange = ()=>{
         startTransition(()=>{
-            updateStream({[field]:!value})
+            updateStream(hostIdentity,{[field]:!value})
             .then(()=>toast.success("Chat settings updated"))
             .catch(()=>toast.error("Error updating chat settings"));
         });

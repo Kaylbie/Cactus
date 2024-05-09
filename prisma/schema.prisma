@@ -28,10 +28,15 @@ model User{
   blocking Block[] @relation(name: "Blocking")
   blockedBy Block[] @relation(name: "BlockedBy")
 
+  moderating Moderator[] @relation(name: "ModeratorOf")
+  moderatedBy Moderator[] @relation(name: "ModeratedBy")
+
   stream Stream?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  
 }
 
 model Follow{
@@ -92,4 +97,21 @@ model Stream{
   @@index([ingressId])
   @@fulltext([name])
 
+}
+
+model Moderator{
+  id String @id @default(uuid())
+  moderatorId String
+  moderatedId String
+
+  
+  moderator User @relation(name: "ModeratorOf", fields: [moderatorId], references: [id], onDelete: Cascade)
+  moderated User @relation(name: "ModeratedBy", fields: [moderatedId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([moderatorId, moderatedId])
+  @@index([moderatorId])
+  @@index([moderatedId])
 }

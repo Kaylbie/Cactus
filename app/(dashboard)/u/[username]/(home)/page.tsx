@@ -12,8 +12,11 @@ interface CreatorPageProps{
 const CreatorPage = async({params}:CreatorPageProps) => {
     const externalUser = await currentUser();
     const user = await getUserByUsername(params.username);
+    //console.log("params",params.username, "user",user);
     if(!user || user.externalUserId !==externalUser?.id||!user.stream){
+        
         throw new Error("Unauthorized");
+        
     }
 
     return ( 
@@ -22,6 +25,7 @@ const CreatorPage = async({params}:CreatorPageProps) => {
                 user={user}
                 stream={user.stream}
                 isFollowing
+                isModded={false}
             />
         </div>
      );

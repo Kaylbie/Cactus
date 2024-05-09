@@ -6,13 +6,18 @@ import {db} from "@/lib/db";
 import {Stream} from "@prisma/client";
 
 import {getSelf}from "@/lib/auth-service";
+import { getUserById } from "@/lib/user-service";
 
-export const updateStream = async (values:Partial<Stream>) => {
+export const updateStream = async (hostIdentity:string,values:Partial<Stream>) => {
     try{
-        const self = await getSelf();
+        //const self = await getSelf();
+        const host=await getUserById(hostIdentity);
+        if(!host){
+            throw new Error("User not found");
+        }
         const selfStream = await db.stream.findUnique({
             where:{
-                userId:self.id
+                userId:host.id
             }
         });
         if(!selfStream){
@@ -20,6 +25,7 @@ export const updateStream = async (values:Partial<Stream>) => {
         }
         const validData={
             name:values.name,
+            thumbnailUrl:values.thumbnailUrl,
             isChatEnabled:values.isChatEnabled,
             isChatDelayed:values.isChatDelayed,
             isChatFollowersOnly:values.isChatFollowersOnly,
@@ -32,9 +38,9 @@ export const updateStream = async (values:Partial<Stream>) => {
                 ...validData
             }
         });
-        revalidatePath(`/u/${self.username}/chat`);
-        revalidatePath(`/u/${self.username}`);
-        revalidatePath(`/${self.username}`);
+        revalidatePath(`/u/${host.username}/chat`);
+        revalidatePath(`/u/${host.username}`);
+        revalidatePath(`/${host.username}`);
 
         return stream;
 

@@ -10,28 +10,37 @@ import { Chat, ChatSkeleton } from "./chat";
 import { ChatToggle } from "./chat-toggle";
 import { Skeleton } from "../ui/skeleton";
 import { Header } from "./header";
+import { InfoCard } from "./info-card";
+import { AboutCard } from "./about-card";
 
 
 
 interface StreamPlayerProps{
-    user:User&{stream:Stream|null};
+    user:User&{
+        stream:Stream|null,
+        _count:{followedBy:number}
+    };
     stream:Stream;
     isFollowing:boolean;
+    isModded:boolean;
 }
 
-export const StreamPlayer = ({user, stream, isFollowing}:StreamPlayerProps)=>{
+export const StreamPlayer = ({user, stream, isFollowing,isModded}:StreamPlayerProps)=>{
+
     const {collapsed}=useChatSidebar((state)=>state);
 
 
     const {
         token,name,identity
     }=useViewerToken(user.id);
+    
     //console.log({token,name,identity});
     if(!token||!name||!identity){
         return(
             <StreamPlayerSkeleton/>
         )
     }
+    
     //console.log({name});
     return(
         <>
@@ -53,6 +62,7 @@ export const StreamPlayer = ({user, stream, isFollowing}:StreamPlayerProps)=>{
                     <Video
                         hostName={user.username}
                         hostIdentity={user.id}
+                        thumbnailUrl={stream.thumbnailUrl||""}
                     />
                     <Header
                         hostName={user.username}
@@ -62,6 +72,21 @@ export const StreamPlayer = ({user, stream, isFollowing}:StreamPlayerProps)=>{
                         isFollowing={isFollowing}
                         name={stream.name}
                     />
+                    <InfoCard
+                        name={stream.name}
+                        thumbnailUrl={stream.thumbnailUrl||""}
+                        hostIdentity={user.id}
+                        viewerIdentity={identity}
+                        isModded={isModded}
+                    />
+                    <AboutCard
+                        hostName={user.username}
+                        hostBio={user.bio||""}
+                        hostIdentity={user.id}
+                        viewerIdentity={identity}
+                        followedByCount={user._count.followedBy}                 
+                    />
+
                 </div>
                 <div className={cn(
                     "col-span-1",
@@ -75,6 +100,7 @@ export const StreamPlayer = ({user, stream, isFollowing}:StreamPlayerProps)=>{
                         isChatEnabled={stream.isChatEnabled}
                         isChatDelayed={stream.isChatDelayed}
                         isChatFollowersOnly={stream.isChatFollowersOnly}
+                        isModded={isModded}
                     />
 
                 </div>

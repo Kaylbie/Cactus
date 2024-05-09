@@ -19,9 +19,10 @@ interface ChatProps{
     isChatEnabled:boolean;
     isChatDelayed:boolean;
     isChatFollowersOnly:boolean;
+    isModded:boolean;
 }
 
-export const Chat = ({hostName,hostIdentity,viewerName,isFollowing,isChatEnabled,isChatDelayed,isChatFollowersOnly}:ChatProps)=>{
+export const Chat = ({hostName,hostIdentity,viewerName,isFollowing,isChatEnabled,isChatDelayed,isChatFollowersOnly,isModded}:ChatProps)=>{
     const matches=useMediaQuery('(max-width: 1024px)');
     const {variant,onExpand}=useChatSidebar((state)=>state);
     const connectionState=useConnectionState();
@@ -32,6 +33,7 @@ export const Chat = ({hostName,hostIdentity,viewerName,isFollowing,isChatEnabled
     const [value, setValue]=useState("");
     
     const {chatMessages:messages,send}=useChat();
+
     useEffect(()=>{
         if(matches){
             onExpand();
@@ -60,6 +62,8 @@ export const Chat = ({hostName,hostIdentity,viewerName,isFollowing,isChatEnabled
                     <ChatList
                         messages={reversedMessages}
                         isHidden={isHidden}
+                        hostName={hostName}
+                        isModerator={isModded}
                     />
                     <ChatForm
                         onSubmit={onSubmit}
@@ -77,6 +81,7 @@ export const Chat = ({hostName,hostIdentity,viewerName,isFollowing,isChatEnabled
                     viewerName={viewerName}
                     hostName={hostName}
                     isHidden={isHidden}
+                    isModded={isModded}
                 
                 />
             )}

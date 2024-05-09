@@ -22,16 +22,19 @@ const ChatPage = async () => {
                     field="isChatEnabled"
                     label="Enable chat"
                     value={stream.isChatEnabled}
+                    hostIdentity={self.id}
                 />
                 <ToggleCard 
                     field="isChatDelayed"
                     label="Delay chat"
                     value={stream.isChatDelayed}
+                    hostIdentity={self.id}
                 />
                 <ToggleCard 
                     field="isChatFollowersOnly"
                     label="Followers only chat"
                     value={stream.isChatFollowersOnly}
+                    hostIdentity={self.id}
                 />
             </div>
         </div>
