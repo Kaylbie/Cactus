@@ -17,8 +17,8 @@ export const OfflineVideo=({username,thumbnailUrl}:OfflineVideoProps)=>{
                 backgroundSize:`cover`,
                 backgroundPosition:`center`,
                 filter:`blur(8px)`
-        }}/>
-        
+            }}/>
+            
             <WifiOff className="h-10 w-10 text-muted-foreground z-10 "/>
             <p className="text-muted-foreground z-10 font-semibold">
                 {username} is offline

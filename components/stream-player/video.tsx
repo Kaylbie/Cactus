@@ -28,6 +28,7 @@ export const Video = ({hostName, hostIdentity,thumbnailUrl}:VideoProps)=>{
 
     let content;
     if(!participant && connectionState===ConnectionState.Connected){
+        
         content=<OfflineVideo 
         username={hostName}
         thumbnailUrl={thumbnailUrl}

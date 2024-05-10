@@ -5,35 +5,22 @@ import{useTracks} from "@livekit/components-react";
 import { FullscreenControl } from "./fullscreen-control";
 import { useEventListener } from "usehooks-ts";
 import { VolumeControl } from "./volume-control";
+import { LiveBadge } from "../live-badge";
 
 interface LiveVideoProps{
     participant:Participant;
 };
 
 export const LiveVideo=({participant}:LiveVideoProps)=>{
+    
     const videoRef = useRef<HTMLVideoElement>(null);
     const wrapperRef=useRef<HTMLDivElement>(null);
     const [isFullscreen, setIsFullscreen]=useState(false);
-    const [volume, setVolume]=useState(0);
+    
 
-    const onVolumeChange=(value:number)=>{
-        setVolume(+value);
-        if(videoRef?.current){
-            videoRef.current.muted=value===0;
-            videoRef.current.volume=+value*0.01;
-        }
-    }
-    const toggleMute=()=>{
-        const isMuted=volume===0;
-        setVolume(isMuted ? 50 : 0);
-        if(videoRef?.current){
-            videoRef.current.muted=!isMuted;
-            videoRef.current.volume=isMuted ? 0.5 : 0;
-        }
-    }
-    useEffect(()=>{
-        onVolumeChange(0);
-    },[]);
+    
+    
+    
 
     const toggleFullscreen=()=>{
         if(isFullscreen){
@@ -67,11 +54,15 @@ export const LiveVideo=({participant}:LiveVideoProps)=>{
             ref={videoRef}
             width="100%" />
             <div className="absolute top-0 h-full w-full opacity-0 hover:opacity-100 hover:transition-all">
+                <LiveBadge className="absolute top-0 right-0 m-4 z-10"/>
                 <div className="absolute bottom-0 flex h-14 w-full items-center justify-between bg-gradient-to-r from-neutral-900 px-4">
+                    {/* {TODO: PAUSE BUTTON} */}
+                    {/* {TODO: QUALITY ? } */}
+                    {/* {TODO: FIX VOLUME CONTROL ? } */}
                     <VolumeControl
-                        onChange={onVolumeChange}
-                        onToggle={toggleMute}
-                        value={volume}
+                        onChange={()=>{}}
+                        onToggle={()=>{}}
+                        value={0}
                     />
                     <FullscreenControl 
                         isFullscreen={isFullscreen}

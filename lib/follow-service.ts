@@ -1,11 +1,10 @@
 import {db} from "./db";
 import {getSelf} from "./auth-service";
+import { getUserByUsername } from "./user-service";
 
 export const getFollowedUsers = async () => {
     try{
         const self = await getSelf();
-
-
         const followedUsers = db.follow.findMany({
             where:{
                 followerId:self.id,
@@ -129,5 +128,44 @@ export const unfollowUser = async (id:string) => {
             following:true
         }
     });
+    return follow;
+};
+
+export const getFollowers = async () => {
+    
+    const self = await getSelf();
+
+    const followers = await db.follow.findMany({
+        where: {
+            followingId: self.id,
+            },
+            include: {
+                follower: true,
+            },
+        });
+    return followers;         
+};
+
+export const removeFollower = async (followerId: string) => {
+    const self = await getSelf();
+    const user=await getUserByUsername(followerId);
+
+    const existingFollow = await db.follow.findFirst({
+        where: {
+            followerId: user?.id,
+            followingId: self.id
+        },
+    });
+
+    if (!existingFollow) {
+        throw new Error("This user is not a follower");
+    }
+
+    const follow = await db.follow.delete({
+        where: {
+            id: existingFollow.id
+        },
+    });
+
     return follow;
 };

@@ -7,6 +7,7 @@ import { useCreatorSidebar } from "@/store/use-creator-sidebar";
 import {LucideIcon} from "lucide-react"
 import Link from "next/link";
 
+
 interface NavItemProps{
     icon:LucideIcon;
     label:string;
@@ -16,6 +17,11 @@ interface NavItemProps{
 
 export const NavItem = ({icon:Icon, label, href, isActive}:NavItemProps) => {
     const {collapsed}=useCreatorSidebar((state)=>state);
+    
+
+    
+
+
 
     return(
         <Button 
@@ -26,6 +32,7 @@ export const NavItem = ({icon:Icon, label, href, isActive}:NavItemProps) => {
                 collapsed ? "justify-center" : "justify-start",
                 isActive && "bg-accent"
             )}
+            
         >
             <Link 
                 href={href}
@@ -44,7 +51,6 @@ export const NavItem = ({icon:Icon, label, href, isActive}:NavItemProps) => {
                 </div>
             
             </Link>
-
         </Button>
 
     );

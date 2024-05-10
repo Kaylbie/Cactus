@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { onFollow, onUnfollow } from "@/actions/follow";
 import { startTransition, useTransition } from "react";
 import { toast } from "sonner";
+import { SubscribeButton } from "./subscribe-button";
 
 interface ActionsProps{
     hostIdentity:string;
@@ -67,21 +68,7 @@ export const Actions = ({hostIdentity,isFollowing,isHost}:ActionsProps)=>{
                 {isFollowing?"Following":"Follow"}
             </Button>
 
-            <Button
-                disabled={true}
-                onClick={()=>{}}
-                variant="secondary"
-                size="sm"
-                className="w-full lg:w-auto bg-green-500"
-            >
-                <Star
-                    className={cn(
-                    "h-4 w-4 mr-2",
-                    false ? "fill-white" : "fill-none"
-                )}
-                />
-                {false ? "Subscribed" : "Subscribe"}
-            </Button>
+            <SubscribeButton/>
         </div>
         
         

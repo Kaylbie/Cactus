@@ -5,6 +5,7 @@
 import {useUser} from "@clerk/nextjs";
 import {usePathname} from "next/navigation";
 import {
+    CircleHelp,
     Fullscreen,
     KeyRound,
     MessageSquare,
@@ -36,6 +37,11 @@ export const Navigation = () => {
         href:`/u/${user?.username}/community`,
         icon:Users
        },
+       {
+        label:"Key required",
+        href:`/u/${user?.username}/key-required`,
+        icon:CircleHelp
+       }
     ]
 
     if(!user?.username){
